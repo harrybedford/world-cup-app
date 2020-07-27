@@ -1,0 +1,13 @@
+query match($matchId: Int!) {
+  matches(id: $matchId) {
+    id
+    homeTeam {
+      name
+    }
+    homeScore
+    awayTeam {
+      name
+    }
+    awayScore
+  }
+}

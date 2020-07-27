@@ -1,12 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Root from './components/Root'
+import * as serviceWorker from './serviceWorker'
+import { BatchHttpLink } from 'apollo-link-batch-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { ApolloClient } from 'apollo-client'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const configLink = {
+    uri: `https://worldcup-2018.now.sh/`,
+    credentials: 'include'
+  }
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const link = new BatchHttpLink(configLink)
+
+const graphqlClient = new ApolloClient({
+  link,
+  cache: new InMemoryCache()
+})
+
+ReactDOM.render(<Root graphqlClient={graphqlClient} />, document.getElementById('root'))
+
+serviceWorker.unregister()
